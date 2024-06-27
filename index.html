@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TensorFlow.js Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+</head>
+<body>
+  <h1>Image Classification with TensorFlow.js</h1>
+  <input type="file" id="imageUpload" accept="image/*">
+  <img id="image" width="224" height="224">
+  <p id="prediction"></p>
+  <script>
+    document.getElementById('imageUpload').addEventListener('change', async (event) => {
+      const image = document.getElementById('image');
+      image.src = URL.createObjectURL(event.target.files[0]);
+
+      const model = await mobilenet.load();
+      const predictions = await model.classify(image);
+
+      document.getElementById('prediction').innerText = `Prediction: ${predictions[0].className}`;
+    });
+  </script>
+</body>
+</html>
